@@ -147,3 +147,11 @@ body {
 #username-form-input::placeholder {
   color: var(--color);
 }
+
+.link {
+  color: hsl(var(--text));
+}
+
+.link:hover {
+  color: hsl(var(--text) / .7);
+}

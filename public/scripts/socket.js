@@ -97,7 +97,7 @@ function parseMessage(msg) {
   if (splitMsg.length === 1) {
     return [
       document.createTextNode(`: ${msg}`)
-    ]
+    ];
   }
 
   let result = [document.createTextNode(": ")];
@@ -105,14 +105,15 @@ function parseMessage(msg) {
   for (let i = 0; i < splitMsg.length; i++) {
     let e;
     if (i % 2 === 0) {
-      e = document.createTextNode(splitMsg[i])
+      e = document.createTextNode(splitMsg[i]);
     } else {
-      e = document.createElement("a")
-      e.target = "_blank"
+      e = document.createElement("a");
+      e.classList.add("link");
+      e.target = "_blank";
       e.href = splitMsg[i];
       e.innerText = splitMsg[i];
     }
-    result = [...result, e]
+    result = [...result, e];
   }
 
   return result;
