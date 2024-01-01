@@ -4,7 +4,6 @@ function getRandomColor() {
   const lightness = 100;
 
   const color =  hsvToHex(hue, saturation, lightness);
-  console.log(color);
   return color;
 }
 
