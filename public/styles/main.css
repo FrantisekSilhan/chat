@@ -133,6 +133,7 @@ body {
 
 .message {
   text-shadow: 0 0 0px black;
+  word-wrap: break-word;
 }
 
 .message:nth-child(odd) {
