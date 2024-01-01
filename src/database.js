@@ -8,7 +8,7 @@ async function initializeDatabase() {
     driver: sqlite3.Database
   });
 
-  db.exec(`
+  await db.exec(`
     CREATE TABLE IF NOT EXISTS sessions (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       session TEXT
