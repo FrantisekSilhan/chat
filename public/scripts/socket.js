@@ -15,15 +15,15 @@ const socket = io({
   }
 });
 
-usernameForm.addEventListener("submit", (e) => {
-  e.preventDefault();
-  const newUsername = usernameFormInput.value;
-  if (newUsername) {
-    socket.emit("setUsername", newUsername);
-    usernameFormInput.placeholder = newUsername;
-    usernameFormInput.value = "";
-  }
-});
+function formatTimestamp(timestamp) {
+  const messageTime = new Date(timestamp);
+
+  const offset = new Date().getTimezoneOffset();
+
+  const localTime = new Date(messageTime.getTime() - offset * 60000);
+
+  return new Intl.DateTimeFormat(undefined, { hour: '2-digit', minute: '2-digit', hour12: false }).format(localTime);
+}
 
 function setColor() {
   const newColor = colorFormInput.value;
@@ -34,6 +34,15 @@ function setColor() {
   }
 }
 
+usernameForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const newUsername = usernameFormInput.value;
+  if (newUsername) {
+    socket.emit("setUsername", newUsername);
+    usernameFormInput.placeholder = newUsername;
+    usernameFormInput.value = "";
+  }
+});
 
 chat.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -44,6 +53,8 @@ chat.addEventListener("submit", (e) => {
 });
 
 socket.on("chatMessage", (msg, serverOffset, timestamp, username, color) => {
+  timestamp = formatTimestamp(timestamp);
+
   const item = document.createElement("li");
   item.classList.add("message")
 
