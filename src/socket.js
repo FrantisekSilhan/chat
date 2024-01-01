@@ -2,11 +2,6 @@
 const { sessionMiddleware } = require("./sessionMiddleware");
 const { getRandomColor } = require("./random-color")
 
-function formatTimestamp(timestamp) {
-  const messageTime = new Date(timestamp);
-  return new Intl.DateTimeFormat('en-US', { hour: '2-digit', minute: '2-digit', hour12: false }).format(messageTime);
-}
-
 function initializeSocket(io, db) {
   /* session initialization */
   io.use((socket, next) => {
@@ -100,6 +95,9 @@ function initializeSocket(io, db) {
     });
 
     socket.on("chatMessage", async (msg) => {
+      if (msg.length > 2048) {
+        return;
+      }
       let result;
       try {
         result = await db.run("INSERT INTO messages (content, timestamp, uid) VALUES (?, CURRENT_TIMESTAMP, ?)", msg, socket.sesid);
@@ -109,7 +107,7 @@ function initializeSocket(io, db) {
       }
 
       const timestampRecord = await db.get("SELECT timestamp FROM messages WHERE id = ?", result.lastID);
-      io.emit("chatMessage", msg, result.lastID, formatTimestamp(timestampRecord.timestamp), socket.username, socket.color);
+      io.emit("chatMessage", msg, result.lastID, timestampRecord.timestamp, socket.username, socket.color);
     });
 
     if (!socket.recovered) {
@@ -118,7 +116,7 @@ function initializeSocket(io, db) {
           "SELECT m.id, m.content, m.timestamp, u.username, u.color FROM messages m JOIN users u ON m.uid = u.id WHERE m.id > ?",
           [socket.handshake.auth.serverOffset ?? 0],
           (_err, row) => {
-            socket.emit("chatMessage", row.content, row.id, formatTimestamp(row.timestamp), row.username, row.color);
+            socket.emit("chatMessage", row.content, row.id, row.timestamp, row.username, row.color);
           }
         );
       } catch (e) {
