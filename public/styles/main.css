@@ -1,0 +1,148 @@
+:root {
+  --text: 184 22% 91%;
+  --background: 184 20% 4%;
+  --primary: 184 20% 70%;
+  --secondary: 184 20% 52%;
+
+  --height: calc(3rem * 3 + 0.2rem);
+  --width: 20rem;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --text: 184 22% 9%;
+    --background: 184 20% 96%;
+    --primary: 184 20% 30%;
+    --secondary: 184 20% 48%;
+  }
+}
+
+html {
+  font-size: 16px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background-color: hsl(var(--background));
+  color: hsl(var(--text));
+  padding-top: var(--height);
+  padding-bottom: 3rem;
+}
+
+.header {
+  position: fixed;
+  inset: 0;
+  bottom: unset;
+  height: var(--height);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1em;
+  flex-direction: column;
+
+  backdrop-filter: blur(10px);
+  background-color: hsl(var(--secondary) / .5);
+}
+
+.header > * {
+  width: var(--width);
+  text-align: center;
+}
+
+.header__form {
+  display: flex;
+  font-size: .75rem;
+  gap: 1em;
+}
+
+.header__form .btn {
+  flex-basis: 30%;
+}
+
+.header__form__input {
+  border: none;
+  outline: none;
+  padding: 0 1rem;
+  flex-grow: 1;
+  border-radius: 2rem;
+  font-weight: 500;
+  height: 2rem;
+
+  background-color: hsl(var(--background));
+  color: hsl(var(--text));
+}
+
+.header__form__input[type="color"]::-webkit-color-swatch,
+.header__form__input[type="color"]::-moz-color-swatch {
+  height: 1.5em;
+}
+
+.main {
+  margin: 0;
+  padding: 0;
+}
+
+.footer {
+  position: fixed;
+  inset: 0;
+  top: unset;
+  height: 3rem;
+
+  display: flex;
+  gap: .5rem;
+  
+  padding: .25rem;
+  background-color: hsl(var(--secondary) / .5);
+  box-sizing: border-box;
+
+
+  backdrop-filter: blur(10px);
+}
+
+.footer input {
+  border: none;
+  outline: none;
+  padding: 0 1rem;
+  flex-grow: 1;
+  border-radius: 2rem;
+
+  background-color: hsl(var(--background));
+  color: hsl(var(--text));
+}
+
+.btn {
+  border: none;
+  background-color: hsl(var(--text));
+  font-size: inherit;
+  font: inherit;
+  color: hsl(var(--background));
+  padding: .4em 1em;
+  display: inline-block;
+  font-weight: 600;
+  border-radius: 2em;
+  cursor: pointer;
+
+  display: inline-block;
+}
+
+.btn:hover,
+.btn:focus {
+  color: hsl(var(--secondary));
+}
+
+.message {
+  text-shadow: 0 0 0px black;
+}
+
+.message:nth-child(odd) {
+  background-color: hsl(var(--primary) / .05);
+}
+
+.message__username {
+  font-weight: 500;
+}
+
+#username-form-input::placeholder {
+  color: var(--color);
+}
