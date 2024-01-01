@@ -43,7 +43,6 @@ usernameForm.addEventListener("submit", (e) => {
     usernameFormInput.value = "";
   }
 });
-
 chat.addEventListener("submit", (e) => {
   e.preventDefault();
   if (chatInput.value) {
@@ -69,7 +68,10 @@ socket.on("chatMessage", (msg, serverOffset, timestamp, username, color) => {
 
   item.appendChild(timestampSpan);
   item.appendChild(usernameSpan);
-  item.appendChild(document.createTextNode(`: ${msg}`));
+  for (const node of parseMessage(msg)) {
+    console.log(node);
+    item.appendChild(node)
+  }
 
   chatMessages.appendChild(item);
   window.scrollTo(0, document.body.scrollHeight);
@@ -86,3 +88,32 @@ socket.on("initialUserInfo", (userInfo) => {
   colorFormInput.value = userInfo.color;
   colorFormInput.style.backgroundColor = userInfo.color;
 });
+
+function parseMessage(msg) {
+  const urlRegex = /(https?:\/\/[^\s]+)/g;
+
+  const splitMsg = msg.split(urlRegex);
+
+  if (splitMsg.length === 1) {
+    return [
+      document.createTextNode(`: ${msg}`)
+    ]
+  }
+
+  let result = [document.createTextNode(": ")];
+
+  for (let i = 0; i < splitMsg.length; i++) {
+    let e;
+    if (i % 2 === 0) {
+      e = document.createTextNode(splitMsg[i])
+    } else {
+      e = document.createElement("a")
+      e.target = "_blank"
+      e.href = splitMsg[i];
+      e.innerText = splitMsg[i];
+    }
+    result = [...result, e]
+  }
+
+  return result;
+}
