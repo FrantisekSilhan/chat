@@ -22,13 +22,10 @@ function initializeSocket(io, db) {
   io.on("connection", async (socket) => {
     socket.username = "guest";
     socket.color = getRandomColor();
-    console.log(socket.color);
     
     socket.handshake.address = socket.handshake.headers["x-forwarded-for"] ?? socket.handshake.address;
-    console.log(socket.handshake.address);
 
     const sessionID = socket.request.session.id;
-    console.log(sessionID);
 
     io.emit("connectionCount", io.sockets.sockets.size);
 
