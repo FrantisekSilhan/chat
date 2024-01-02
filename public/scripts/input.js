@@ -13,7 +13,6 @@ if (textarea !== undefined) {
   textarea.addEventListener("keydown", e => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
-      console.log("pressed")
       chatButton.dispatchEvent(new Event("click", {}));
     }
 
@@ -22,5 +21,12 @@ if (textarea !== undefined) {
         window.scrollTo(0, document.body.scrollHeight);
       }, 10);
     }
-  })
+  });
 }
+
+window.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    e.preventDefault();
+    window.scrollTo(0, document.body.scrollHeight);
+  }
+});
