@@ -87,11 +87,10 @@ body {
   position: fixed;
   inset: 0;
   top: unset;
-  height: 3rem;
 
   display: flex;
   gap: .5rem;
-  
+
   padding: .25rem;
   background-color: hsl(var(--secondary) / .5);
   box-sizing: border-box;
@@ -100,15 +99,19 @@ body {
   backdrop-filter: blur(10px);
 }
 
-.footer input {
-  border: none;
-  outline: none;
-  padding: 0 1rem;
+.textarea {
   flex-grow: 1;
-  border-radius: 2rem;
-
-  background-color: hsl(var(--background));
-  color: hsl(var(--text));
+  background: black;
+  border-radius: 1.5em;
+  padding: .5em 1em;
+  line-height: 1.2em;
+  resize: none;
+  width: 100%;
+  border: none;
+  color: white;
+  margin: 0;
+  font-family: inherit;
+  max-height: 6em;
 }
 
 .btn {

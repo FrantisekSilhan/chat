@@ -1,5 +1,6 @@
 const chat = document.getElementById("chat");
-const chatInput = document.getElementById("chat-input");
+const btn = document.getElementById("send");
+const chatInput = document.getElementById("textarea");
 const chatMessages = document.getElementById("chat-messages");
 
 const infoConnections = document.getElementById("info-connections");
@@ -49,11 +50,12 @@ usernameForm.addEventListener("submit", (e) => {
     usernameFormInput.value = "";
   }
 });
-chat.addEventListener("submit", (e) => {
+btn.addEventListener("click", (e) => {
   e.preventDefault();
   if (chatInput.value) {
     socket.emit("chatMessage", chatInput.value);
     chatInput.value = "";
+    chatInput.dispatchEvent(new Event('input', { bubbles: true }));
   }
 });
 
