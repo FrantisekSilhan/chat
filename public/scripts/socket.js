@@ -89,7 +89,7 @@ socket.on("initialUserInfo", (userInfo) => {
 });
 
 function parseMessage(msg) {
-  const emoRegex = /(:\w+:)/;
+  const emoRegex = /(:[a-zA-Z_]+:)/;
   const urlRegex = /(https?:\/\/[^\s]+)/g;
 
   const finalRegex = new RegExp(`${emoRegex.source}|${urlRegex.source}`)
