@@ -186,4 +186,5 @@ body {
 .link:hover,
 .link:focus {
   color: hsl(var(--text) / .7);
+  outline: none;
 }
