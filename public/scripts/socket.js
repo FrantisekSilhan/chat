@@ -69,7 +69,6 @@ socket.on("chatMessage", (msg, serverOffset, timestamp, username, color) => {
   item.appendChild(timestampSpan);
   item.appendChild(usernameSpan);
   for (const node of parseMessage(msg)) {
-    console.log(node);
     item.appendChild(node)
   }
 
@@ -90,30 +89,38 @@ socket.on("initialUserInfo", (userInfo) => {
 });
 
 function parseMessage(msg) {
+  const emoRegex = /(:\w+:)/;
   const urlRegex = /(https?:\/\/[^\s]+)/g;
 
-  const splitMsg = msg.split(urlRegex);
+  const finalRegex = new RegExp(`${emoRegex.source}|${urlRegex.source}`)
+
+  const splitMsg = msg.split(emoRegex);
 
   if (splitMsg.length === 1) {
     return [
       document.createTextNode(`: ${msg}`)
-    ];
+    ]
   }
 
   let result = [document.createTextNode(": ")];
 
-  for (let i = 0; i < splitMsg.length; i++) {
+  for (const piece of splitMsg) {
     let e;
-    if (i % 2 === 0) {
-      e = document.createTextNode(splitMsg[i]);
-    } else {
-      e = document.createElement("a");
-      e.classList.add("link");
-      e.target = "_blank";
-      e.href = splitMsg[i];
-      e.innerText = splitMsg[i];
+    switch (true) {
+      case urlRegex.test(piece):
+        e = document.createElement("a")
+        e.target = "_blank"
+        e.href = piece;
+        e.innerText = piece;
+        break;
+      case emoRegex.test(piece):
+        e = document.createTextNode("EMO")
+        break;
+      default:
+        e = document.createTextNode(piece)
+        break;
     }
-    result = [...result, e];
+    result = [...result, e]
   }
 
   return result;
