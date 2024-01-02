@@ -1,6 +1,7 @@
 package-lock.json
 chat.db
 sessions.db
+.idea
 
 # Logs
 logs
