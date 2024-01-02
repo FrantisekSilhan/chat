@@ -1,5 +1,5 @@
 const textarea = document.getElementById("textarea");
-const chatButton = document.getElementById("chat");
+const chatButton = document.getElementById("send");
 
 if (textarea !== undefined) {
     textarea.addEventListener("input", e => {

@@ -1,4 +1,5 @@
 const chat = document.getElementById("chat");
+const btn = document.getElementById("send");
 const chatInput = document.getElementById("textarea");
 const chatMessages = document.getElementById("chat-messages");
 
@@ -49,7 +50,7 @@ usernameForm.addEventListener("submit", (e) => {
     usernameFormInput.value = "";
   }
 });
-chat.addEventListener("click", (e) => {
+btn.addEventListener("click", (e) => {
   e.preventDefault();
   if (chatInput.value) {
     socket.emit("chatMessage", chatInput.value);
