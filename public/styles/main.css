@@ -126,6 +126,21 @@ body {
   height: var(--chat-height-input);
 }
 
+.chat__warning {
+  position: absolute;
+  bottom: var(--chat-height);
+  left: 0;
+  right: 0;
+  text-align: center;
+  background-color: hsl(var(--background));
+  padding: .5em 1em;
+  display: none;
+}
+
+.chat__warning.visible {
+  display: block;
+}
+
 .btn {
   border: none;
   background-color: hsl(var(--text));
@@ -165,6 +180,7 @@ body {
 
 .link {
   color: hsl(var(--text));
+  cursor: pointer;
 }
 
 .link:hover {

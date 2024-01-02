@@ -1,34 +1,16 @@
-const chat = document.getElementById("chat");
-const btn = document.getElementById("send");
-const chatInput = document.getElementById("textarea");
-const chatMessages = document.getElementById("chat-messages");
-
-const infoConnections = document.getElementById("info-connections");
-
-const usernameForm = document.getElementById("username-form")
-const usernameFormInput = document.getElementById("username-form-input");
-
-const colorFormInput = document.getElementById("color-form-input");
-
-const socket = io({
-  auth: {
-    serverOffset: 0
-  }
-});
-
 function formatTimestamp(timestamp) {
   const messageTime = new Date(timestamp);
-
+  
   const offset = new Date().getTimezoneOffset();
-
+  
   const localTime = new Date(messageTime.getTime() - offset * 60000);
-
+  
   const options = {
     hourCycle: "h23",
     hour: "2-digit",
     minute: "2-digit"
   };
-
+  
   return new Intl.DateTimeFormat("en-US", { ...options }).format(localTime);
 }
 
@@ -41,6 +23,17 @@ function setColor() {
   }
 }
 
+document.addEventListener("scroll", () => {
+  autoScroll = (window.scrollY + lineHeight*16*5) >= document.body.scrollHeight - window.innerHeight;
+  if (autoScroll) {
+    chatWarning.classList.remove("visible");
+  }
+});
+
+chatWarning.addEventListener("click", () => {
+  window.scrollTo(0, document.body.scrollHeight);
+});
+
 usernameForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const newUsername = usernameFormInput.value;
@@ -50,7 +43,8 @@ usernameForm.addEventListener("submit", (e) => {
     usernameFormInput.value = "";
   }
 });
-btn.addEventListener("click", (e) => {
+
+chatButton.addEventListener("click", (e) => {
   e.preventDefault();
   if (chatInput.value) {
     socket.emit("chatMessage", chatInput.value);
@@ -82,7 +76,11 @@ socket.on("chatMessage", (msg, serverOffset, timestamp, username, color) => {
   }
 
   chatMessages.appendChild(item);
-  window.scrollTo(0, document.body.scrollHeight);
+  if (autoScroll) {
+    window.scrollTo(0, document.body.scrollHeight);
+  } else {
+    chatWarning.classList.add("visible");
+  }
   socket.auth.serverOffset = serverOffset;
 });
 
