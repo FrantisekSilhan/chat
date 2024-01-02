@@ -23,10 +23,13 @@ html {
 }
 
 body {
+  --chat-line-height: 1.2em;
+  --chat-height-input: var(--chat-line-height);
+  --chat-height: min(calc(var(--chat-height-input) + 2em), 8em);
   background-color: hsl(var(--background));
   color: hsl(var(--text));
   padding-top: var(--height);
-  padding-bottom: 3rem;
+  padding-bottom: var(--chat-height);
 }
 
 .header {
@@ -81,25 +84,31 @@ body {
 .main {
   margin: 0;
   padding: 0;
+  list-style: none;
+  overflow-x: hidden;
 }
 
-.footer {
+.chat {
+  font-size: 1rem;
   position: fixed;
   inset: 0;
   top: unset;
 
   display: flex;
-  gap: .5rem;
+  gap: .5em;
 
-  padding: .25rem;
+  padding: .25em;
   background-color: hsl(var(--secondary) / .5);
   box-sizing: border-box;
 
 
   backdrop-filter: blur(10px);
+  height: var(--chat-height);
+  align-items: center;
 }
 
-.textarea {
+.chat__textarea {
+  font-size: 1rem;
   flex-grow: 1;
   background: black;
   border-radius: 1.5em;
@@ -112,6 +121,9 @@ body {
   margin: 0;
   font-family: inherit;
   max-height: 6em;
+  outline: none;
+
+  height: var(--chat-height-input);
 }
 
 .btn {
