@@ -76,8 +76,8 @@ socket.on("chatMessage", (msg, serverOffset, timestamp, username, color) => {
 
   item.appendChild(timestampSpan);
   item.appendChild(usernameSpan);
+
   for (const node of parseMessage(msg)) {
-    console.log(node);
     item.appendChild(node)
   }
 

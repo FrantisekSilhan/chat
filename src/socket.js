@@ -61,6 +61,9 @@ function initializeSocket(io, db) {
     });
 
     socket.on("setUsername", async (username) => {
+      if (username.length > 64 || username.length === 0) {
+        return;
+      }
       try {
         socket.username = username;
 
@@ -78,6 +81,9 @@ function initializeSocket(io, db) {
     });
 
     socket.on("setColor", async (color) => {
+      if (!/^#([0-9A-Fa-f]{6})$/.test(color)) {
+        return;
+      }
       try {
         socket.color = color;
 
@@ -95,7 +101,7 @@ function initializeSocket(io, db) {
     });
 
     socket.on("chatMessage", async (msg) => {
-      if (msg.length > 2048) {
+      if (msg.length > 2048 || !/\S/.test(msg)) {
         return;
       }
       let result;
