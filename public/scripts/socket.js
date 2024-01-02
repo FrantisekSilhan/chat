@@ -22,7 +22,13 @@ function formatTimestamp(timestamp) {
 
   const localTime = new Date(messageTime.getTime() - offset * 60000);
 
-  return new Intl.DateTimeFormat(undefined, { hour: '2-digit', minute: '2-digit', hour12: false }).format(localTime);
+  const options = {
+    hourCycle: "h23",
+    hour: "2-digit",
+    minute: "2-digit"
+  };
+
+  return new Intl.DateTimeFormat("en-US", { ...options }).format(localTime);
 }
 
 function setColor() {
