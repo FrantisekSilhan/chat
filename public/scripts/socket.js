@@ -1,17 +1,17 @@
-function formatTimestamp(timestamp) {
+function offsetTimestamp(timestamp) {
   const messageTime = new Date(timestamp);
-  
   const offset = new Date().getTimezoneOffset();
-  
-  const localTime = new Date(messageTime.getTime() - offset * 60000);
-  
+  return new Date(messageTime.getTime() - offset * 60000);
+}
+
+function formatTimestamp(timestamp) {
   const options = {
     hourCycle: "h23",
     hour: "2-digit",
     minute: "2-digit"
   };
-  
-  return new Intl.DateTimeFormat("en-US", { ...options }).format(localTime);
+
+  return new Intl.DateTimeFormat("en-US", { ...options }).format(timestamp);
 }
 
 function setColor() {
@@ -21,6 +21,31 @@ function setColor() {
     usernameFormInput.style.setProperty("--color", newColor);
     colorFormInput.style.backgroundColor = newColor;
   }
+}
+
+function handleNewDay(newMessage) {
+  if (!lastMessage) {
+    const item = document.createElement("li");
+    item.classList.add("message", "message--center")
+
+    item.appendChild(document.createTextNode(`${newMessage.getDate()}.${newMessage.getMonth()+1}.${newMessage.getFullYear()}`));
+    chatMessages.appendChild(item);
+    lastMessage = newMessage;
+  }
+
+  const isSameDay = (date1, date2) =>
+    date1.getFullYear() === date2.getFullYear() &&
+    date1.getMonth() === date2.getMonth() &&
+    date1.getDate() === date2.getDate();
+
+  if (!isSameDay(lastMessage, newMessage)) {
+    const item = document.createElement("li");
+    item.classList.add("message", "message--center")
+
+    item.appendChild(document.createTextNode(`${newMessage.getDate()}.${newMessage.getMonth()+1}.${newMessage.getFullYear()}`));
+    chatMessages.appendChild(item);
+  }
+  lastMessage = newMessage
 }
 
 document.addEventListener("scroll", () => {
@@ -54,6 +79,8 @@ chatButton.addEventListener("click", (e) => {
 });
 
 socket.on("chatMessage", (msg, serverOffset, timestamp, username, color) => {
+  timestamp = offsetTimestamp(timestamp);
+  handleNewDay(timestamp);
   timestamp = formatTimestamp(timestamp);
 
   const item = document.createElement("li");

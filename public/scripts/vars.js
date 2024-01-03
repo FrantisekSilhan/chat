@@ -1,4 +1,5 @@
 let autoScroll = true;
+let lastMessage;
 
 const body = document.getElementsByTagName("body")[0];
 
