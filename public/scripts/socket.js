@@ -126,14 +126,14 @@ function parseMessage(msg) {
   const emoRegex = /(:[a-zA-Z_]+:)/;
   const urlRegex = /(https?:\/\/[^\s]+)/g;
 
-  const finalRegex = new RegExp(`${emoRegex.source}|${urlRegex.source}`)
+  const finalRegex = new RegExp(`${emoRegex.source}|${urlRegex.source}`);
 
   const splitMsg = msg.split(finalRegex);
 
   if (splitMsg.length === 1) {
     return [
       document.createTextNode(`: ${msg}`)
-    ]
+    ];
   }
 
   let result = [document.createTextNode(": ")];
@@ -142,19 +142,20 @@ function parseMessage(msg) {
     let e;
     switch (true) {
       case urlRegex.test(piece):
-        e = document.createElement("a")
-        e.target = "_blank"
+        e = document.createElement("a");
+        e.classList.add("link");
+        e.target = "_blank";
         e.href = piece;
         e.innerText = piece;
         break;
       case emoRegex.test(piece):
-        e = document.createTextNode("EMO")
+        e = document.createTextNode("EMO");
         break;
       default:
-        e = document.createTextNode(piece)
+        e = document.createTextNode(piece);
         break;
     }
-    result = [...result, e]
+    result = [...result, e];
   }
 
   return result;
