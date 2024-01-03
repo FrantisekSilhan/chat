@@ -128,7 +128,7 @@ function parseMessage(msg) {
 
   const finalRegex = new RegExp(`${emoRegex.source}|${urlRegex.source}`)
 
-  const splitMsg = msg.split(emoRegex);
+  const splitMsg = msg.split(finalRegex);
 
   if (splitMsg.length === 1) {
     return [
